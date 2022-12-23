@@ -2,8 +2,9 @@ import "./products.css";
 import { useState } from "react";
 import { useFormik } from "formik";
 import { Grid, TextField, Button, Typography } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateProduct,deleteProduct} from '../Store';
+import { updateProduct, deleteProduct } from '../Store';
 
 const Products = (props) => {
   const dispatch = useDispatch();
@@ -12,7 +13,7 @@ const Products = (props) => {
 
 
   const deleting = (id) => (e) => {
-      dispatch(deleteProduct(id))
+    dispatch(deleteProduct(id))
   };
 
   const [id, setId] = useState();
@@ -50,9 +51,7 @@ const Products = (props) => {
 
           <Grid container alignItems='center' key={el.id} width='100vw' mt={4}>
             <Grid item container xs={3} alignItems='center' sx={{ height: 50 }}>
-              <Button onClick={deleting(el.id)}>delete</Button>
               <Button onClick={onSelect(el)}>update</Button>
-
               <Typography>{el.name}</Typography>
               <Typography>:</Typography>
               <Typography>{el.price}</Typography>
@@ -86,6 +85,11 @@ const Products = (props) => {
                     </Grid>
                     <Grid item xs={3}>
                       <Button type="submit" variant="contained">Add</Button>
+                    </Grid>
+                    <Grid item xs={3} >
+                      <Button onClick={deleting(el.id)} color='error' variant="contained" startIcon={<DeleteIcon />}>
+                        Delete
+                      </Button>
                     </Grid>
                   </>
                 )}
