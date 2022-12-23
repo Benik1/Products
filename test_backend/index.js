@@ -2,11 +2,13 @@ const express = require("express");
 const { Sequelize, DataTypes } = require("sequelize");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const  dotenv = require('dotenv');
+dotenv.config();
 
 /* ============ sequelize ============ */
 
-const sequelize = new Sequelize("postgres", "postgres", "postgres", {
-  host: "localhost",
+const sequelize = new Sequelize(process.env.DATABASE_NAME, process.env.DATABASE_USER, process.env.DATABASE_PASS, {
+  host: process.env.DATABASE_HOST,
   dialect: "postgres",
 });
 
@@ -41,7 +43,6 @@ const Product = sequelize.define(
 /* ============ express ============ */
 
 const app = express();
-const port = 4001;
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cors());
 
@@ -113,7 +114,7 @@ app.post("/products", addProduct);
 app.delete("/products/:id", delProduct);
 app.put("/products/:id", updateById);
 
-app.listen(port, async () => {
+app.listen(process.env.PORT, async () => {
   sequelize.sync();
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Example app listening on port ${process.env.PORT}`);
 });
